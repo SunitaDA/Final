@@ -1,0 +1,43 @@
+name: snowflake-master-branch-sales-pipeline
+
+# Controls when the action will run. 
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'source/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy-snowflake-changes-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Use Python 3.8.x
+        uses: actions/setup-python@v2.2.1
+        with:
+          python-version: 3.8.x
+
+      - name: Run schemachange
+        env:
+          SF_ACCOUNT: ${{ secrets.SIT_SF_ACCOUNTNAME }}
+          SF_USERNAME: ${{ secrets.SIT_SF_USERNAME }}
+          SF_ROLE: ${{ secrets.SIT_SF_ROLENAME }}
+          SF_WAREHOUSE: ${{ secrets.SIT_SF_WAREHOUSE }}
+          SF_DATABASE: ${{ secrets.SIT_SF_DATABASE }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SIT_SF_PASSWORD }}
+        run: |
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          python --version
+          echo "Step 1: Installing schemachange"
+          pip install schemachange
+          
+          echo "Step 2: Running schemachange"
+          schemachange -f $GITHUB_WORKSPACE/source -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_ROLE -w $SF_WAREHOUSE -d $SF_DATABASE -c $SF_DATABASE.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
