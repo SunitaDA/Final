@@ -27,12 +27,12 @@ jobs:
 
       - name: Run schemachange
         env:
-          SF_ACCOUNT: ${{ secrets.SIT_SF_ACCOUNTNAME }}
-          SF_USERNAME: ${{ secrets.SIT_SF_USERNAME }}
-          SF_ROLE: ${{ secrets.SIT_SF_ROLENAME }}
-          SF_WAREHOUSE: ${{ secrets.SIT_SF_WAREHOUSE }}
-          SF_DATABASE: ${{ secrets.SIT_SF_DATABASE }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SIT_SF_PASSWORD }}
+          SF_ACCOUNT: ${{ secrets.SIT_SF_ACCOUNTNAME1 }}
+          SF_USERNAME: ${{ secrets.SIT_SF_USERNAME1 }}
+          SF_ROLE: ${{ secrets.SIT_SF_ROLENAME1 }}
+          SF_WAREHOUSE: ${{ secrets.SIT_SF_WAREHOUSE1 }}
+          SF_DATABASE: ${{ secrets.SIT_SF_DATABASE1 }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SIT_SF_PASSWORD1 }}
         run: |
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           python --version
